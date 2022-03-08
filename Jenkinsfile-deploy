@@ -1,22 +1,19 @@
-node {
+pipeline {
    def commit_id
+   stages {
    stage('Preparation') {
      checkout scm
      sh "git rev-parse --short HEAD > .git/commit-id"                        
      commit_id = readFile('.git/commit-id').trim()
    }
-   stage('Test') {
-     def TestContainer = docker.image('mraagil/docker-nodejs')
-     TestContainer.pull()
-     TestContainer.inside {
-       sh 'npm install'
-       sh 'npm test'
-     }
-   }
-   stage('Deploy') {
-     nodejs(nodeJSInstallationName: 'nodejs') {
-       sh 'sudo bash deploy.sh'
-     }
-   }
-   
+stage ('image build and Push') {
+      steps {
+        sh '''
+            ssh to your server with IP # I don't know how you ssh to your server just add that command here
+            docker build -t mraagil/docker-nodejs .
+            docker run -P -d mraagil/docker-nodejs
+        '''
+			}
+		}
+	}
 }
