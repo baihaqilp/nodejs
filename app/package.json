@@ -1,15 +1,21 @@
 {
-  "name": "express-sendfile-example",
+  "name": "nodejs-nginx",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/github-ragil/nginx-nodejs.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "express": "^4.17.3"
-  }
+  "bugs": {
+    "url": "https://github.com/github-ragil/nginx-nodejs/issues"
+  },
+  "homepage": "https://github.com/github-ragil/nginx-nodejs#readme",
+  "description": ""
 }
