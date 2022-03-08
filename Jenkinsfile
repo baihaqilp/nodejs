@@ -6,10 +6,8 @@ node {
      commit_id = readFile('.git/commit-id').trim()
    }
    stage('Test') {
-     def myTestContainer = docker.image('mraagil/docker-nodejs2')
-     myTestContainer.pull()
-     myTestContainer.inside {
-       sh 'npm install'
+     nodejs(nodeJSInstallationName: 'nodejs') {
+       sh 'npm install'	 
        sh 'npm test'
      }
    }
@@ -22,7 +20,7 @@ node {
    }
    stage('Docker Build & Push') {
      docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
-		def app = docker.build("mraagil/nodejs-nginx:${commit_id}", '.').push()
+		def app = docker.build("mraagil/docker-nodejs:${commit_id}", '.').push()
      }
    }
    
