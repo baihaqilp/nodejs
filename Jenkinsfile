@@ -13,7 +13,7 @@ node {
    }
    stage('deploy') {
      nodejs(nodeJSInstallationName: 'nodejs') {
-       sh 'cp -v -r -f * /var/lib/docker/volumes/nodejs-data/_data '	 
+       sh 'sudo cp -v -r -f * /var/lib/docker/volumes/nodejs-data/_data '	 
      }
    }
    
