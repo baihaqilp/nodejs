@@ -11,13 +11,7 @@ node {
        sh 'npm test'
      }
    }
-   stage('Deploy') {
-     nodejs(nodeJSInstallationName: 'nodejs') {
-       sh 'sudo rsync -avzh --exclude='*.js' * /nodejs1'
-	   sh 'sudo rsync -avzh --exclude='*.js' * /nodejs2'
-	   sh 'sudo rsync -avzh --exclude='*.js' * /nodejs3'
-     }
-   }
+   
    stage('Docker Build & Push') {
      docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
 		def app = docker.build("mraagil/docker-nodejs:${commit_id}", '.').push()
