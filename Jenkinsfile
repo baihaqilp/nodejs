@@ -6,14 +6,18 @@ node {
      commit_id = readFile('.git/commit-id').trim()
    }
    stage('Test') {
-     nodejs(nodeJSInstallationName: 'nodejs') {
-       sh 'npm install'	 
+     def myTestContainer = docker.image('mraagil/docker-nodejs2')
+     myTestContainer.pull()
+     myTestContainer.inside {
+       sh 'npm install'
        sh 'npm test'
      }
    }
    stage('Deploy') {
      nodejs(nodeJSInstallationName: 'nodejs') {
-       sh 'sudo rsync -av * /nodejs '	 
+       sh 'sudo rsync -av * /nodejs1'
+	   sh 'sudo rsync -av * /nodejs2'
+	   sh 'sudo rsync -av * /nodejs3'
      }
    }
    stage('Docker Build & Push') {
