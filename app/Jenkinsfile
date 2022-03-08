@@ -11,5 +11,10 @@ node {
        sh 'npm test'
      }
    }
+   stage('deploy') {
+     nodejs(nodeJSInstallationName: 'nodejs') {
+       sh 'cp -v -r -f * /var/lib/docker/volumes/nodejs-data/_data '	 
+     }
+   }
    
 }
