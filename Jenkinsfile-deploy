@@ -7,6 +7,7 @@ node {
      commit_id = readFile('.git/commit-id').trim()
    }
 }
+}
 pipeline {
     agent { dockerfile true }
     stages {
