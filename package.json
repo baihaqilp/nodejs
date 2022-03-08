@@ -7,6 +7,11 @@
     "start": "node index.js",
     "test": "npm install inherits && mocha"
   },
+  "dependencies": {
+    "express": "^4.14.0",
+    "http-errors": "^1.7.0",
+	"mocha": "^5.2.0"
+	},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/github-ragil/nginx-nodejs.git"
@@ -19,9 +24,5 @@
   },
   "homepage": "https://github.com/github-ragil/nginx-nodejs#readme",
   "description": ""
-  "dependencies": {
-    "express": "^4.14.0",
-    "http-errors": "^1.7.0",
-	"mocha": "^5.2.0"
-	}
+  
 }
