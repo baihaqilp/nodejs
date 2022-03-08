@@ -14,7 +14,7 @@ node {
    
    stage('Docker Build & Push') {
      docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
-		def app = docker.build("mraagil/docker-nodejs:${commit_id}", '.').push()
+		def app = docker.build("mraagil/docker-nodejs", '.').push()
      }
    }
    
