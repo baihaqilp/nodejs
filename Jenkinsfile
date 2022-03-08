@@ -13,9 +13,9 @@ node {
    }
    stage('Deploy') {
      nodejs(nodeJSInstallationName: 'nodejs') {
-       sh 'sudo rsync -avzh --exclude-from={'./index.js','./Dockerfile'} * /nodejs1'
-	   sh 'sudo rsync -avzh --exclude-from={'./index.js','./Dockerfile'} * /nodejs2'
-	   sh 'sudo rsync -avzh --exclude-from={'./index.js','./Dockerfile'} * /nodejs3'
+       sh 'sudo rsync -avzh --exclude='./index.js' --exclude='./Dockerfile' * /nodejs1'
+	   sh 'sudo rsync -avzh --exclude='./index.js' --exclude='./Dockerfile' * /nodejs2'
+	   sh 'sudo rsync -avzh --exclude='./index.js' --exclude='./Dockerfile' * /nodejs3'
      }
    }
    stage('Docker Build & Push') {
