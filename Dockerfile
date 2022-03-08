@@ -3,15 +3,14 @@ FROM node:alpine
 
 # create the directory inside the container
 WORKDIR /usr/src/app
-ADD . /usr/src/app/
+
 # copy the package.json files from local machine to the workdir in container
 COPY package*.json ./
 
 # run npm install in our local machine
 RUN npm install
-RUN npm install express
-# copy the generated modules and all other files to the container
-COPY . .
+# add the generated modules and all other files to the container
+ADD . /usr/src/app/
 
 # our app is running on port 5000 within the container, so need to expose it
 EXPOSE 5000

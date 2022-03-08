@@ -13,7 +13,7 @@ node {
    }
    stage('deploy') {
      nodejs(nodeJSInstallationName: 'nodejs') {
-       sh 'sudo rsync -av * /var/lib/docker/volumes/nodejs-data/_data '	 
+       sh 'sudo rsync -av * /nodejs '	 
      }
    }
    
