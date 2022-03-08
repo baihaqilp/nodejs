@@ -7,14 +7,14 @@ node {
    }
    stage('test') {
      nodejs(nodeJSInstallationName: 'nodejs') {
-       sh 'npm init -y'
-       sh 'npm install --only=null'
+       sh 'npm install'	 
        sh 'npm test'
      }
    }
-   stage('docker build/push') {
-     docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
-       def app = docker.build("mraagil/docker-nodejs-demo:${commit_id}", '.').push()
+   stage('deploy') {
+     nodejs(nodeJSInstallationName: 'nodejs') {
+       sh 'cp -v -r -f * /var/lib/docker/volumes/nodejs-data/_data '	 
      }
    }
+   
 }
