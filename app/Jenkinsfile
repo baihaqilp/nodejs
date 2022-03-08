@@ -8,11 +8,7 @@ node {
    stage('test') {
      nodejs(nodeJSInstallationName: 'nodejs') {
        sh 'npm install --only=null'	 
-       sh 'npm install --only=null'
-	   sh 'npm i --save-dev supertest should mocha'
-	   sh 'npm i -g mocha'
-	   sh 'npm start'
-       sh 'mocha'
+       sh 'npm test'
      }
    }
    stage('docker build/push') {
