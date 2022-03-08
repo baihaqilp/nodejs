@@ -1,4 +1,4 @@
-pipeline {
+node {
    def commit_id
    stages {
    stage('Preparation') {
@@ -6,14 +6,15 @@ pipeline {
      sh "git rev-parse --short HEAD > .git/commit-id"                        
      commit_id = readFile('.git/commit-id').trim()
    }
-stage ('image build and Push') {
-      steps {
-        sh '''
-            ssh to your server with IP # I don't know how you ssh to your server just add that command here
-            docker build -t mraagil/docker-nodejs .
-            docker run -P -d mraagil/docker-nodejs
-        '''
-			}
-		}
-	}
+}
+pipeline {
+    agent { dockerfile true }
+    stages {
+        stage('Test') {
+            steps {
+                sh 'docker build -t mraagil/docker-nodejs .'
+                sh 'docker run -P -d mraagil/docker-nodejs'
+            }
+        }
+    }
 }
