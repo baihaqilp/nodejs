@@ -16,5 +16,10 @@ node {
        sh 'sudo rsync -av * /nodejs '	 
      }
    }
+   stage('docker build/push') {
+     docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
+		def app = docker.build("mraagil/docker-nodejs-demo:${commit_id}", '.').push()
+     }
+   }
    
 }
