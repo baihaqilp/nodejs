@@ -5,7 +5,7 @@
   "devDependencies": {},
   "scripts": {
     "start": "node index.js",
-    "test": "mocha"
+    "test": "npm install inherits && mocha"
   },
   "repository": {
     "type": "git",
