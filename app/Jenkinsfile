@@ -11,7 +11,7 @@ node {
        sh 'npm install --only=null'
 	   sh 'npm i --save-dev supertest should mocha'
 	   sh 'npm i -g mocha'
-       sh 'npm test'
+       sh 'mocha'
      }
    }
    stage('docker build/push') {
