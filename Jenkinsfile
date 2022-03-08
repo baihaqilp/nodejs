@@ -5,20 +5,20 @@ node {
      sh "git rev-parse --short HEAD > .git/commit-id"                        
      commit_id = readFile('.git/commit-id').trim()
    }
-   stage('test') {
+   stage('Test') {
      nodejs(nodeJSInstallationName: 'nodejs') {
        sh 'npm install'	 
        sh 'npm test'
      }
    }
-   stage('deploy') {
+   stage('Deploy') {
      nodejs(nodeJSInstallationName: 'nodejs') {
        sh 'sudo rsync -av * /nodejs '	 
      }
    }
-   stage('docker build/push') {
+   stage('Docker Build & Push') {
      docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
-		def app = docker.build("mraagil/docker-nodejs-demo:${commit_id}", '.').push()
+		def app = docker.build("mraagil/nodejs-nginx:${commit_id}", '.').push()
      }
    }
    
