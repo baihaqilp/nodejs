@@ -4,7 +4,7 @@
   "main": "index.js",
   "devDependencies": {},
   "scripts": {
-    "start": "npm i --save-dev supertest should mocha && npm i -g mocha && node index.js",
+    "start": "node index.js",
     "test": "mocha"
   },
   "repository": {
