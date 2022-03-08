@@ -8,7 +8,7 @@ node {
    stage('test') {
      nodejs(nodeJSInstallationName: 'nodejs') {
        sh 'npm init -y'
-       sh 'npm install package-dev --save-dev'
+       sh 'npm install --only=null'
        sh 'npm test'
      }
    }
