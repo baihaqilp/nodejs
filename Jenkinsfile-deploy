@@ -1,0 +1,22 @@
+node {
+   def commit_id
+   stage('Preparation') {
+     checkout scm
+     sh "git rev-parse --short HEAD > .git/commit-id"                        
+     commit_id = readFile('.git/commit-id').trim()
+   }
+   stage('Test') {
+     def TestContainer = docker.image('mraagil/docker-nodejs')
+     TestContainer.pull()
+     TestContainer.inside {
+       sh 'npm install'
+       sh 'npm test'
+     }
+   }
+   stage('Deploy') {
+     nodejs(nodeJSInstallationName: 'nodejs') {
+       sh 'sudo bash deploy.sh'
+     }
+   }
+   
+}
