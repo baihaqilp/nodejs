@@ -33,7 +33,7 @@ node {
    stage('Docker Pull & Deploy Scale Out') {
      docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
 		def app = docker.build("mraagil/docker-nodejs", '.').pull()
-		sh 'docker-compose up --build'
+		sh 'docker run -p 5004:5004 -d --name nodejs-scaleout mraagil/docker-nodejs'
 		}
    }
    
