@@ -20,7 +20,7 @@ node {
 
    stage('Deploy Changes') {
      nodejs(nodeJSInstallationName: 'nodejs') {
-       sh 'sudo cp -v -r -f * /nodejs1'	 
+       sh 'sudo rsync -av * /nodejs1'	 
      }
    }
    
