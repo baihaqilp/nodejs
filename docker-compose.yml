@@ -1,35 +1,14 @@
 version: "3.7"
 services:
-    node-server1:
+    node-svr:
         restart: unless-stopped
         build:
             context: ./app
         ports:
-            - "5001:5001"
+            - "5001-5005:5001"
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
-            - nodejs-data:/usr/src/app 
-            
-    node-server2:
-        restart: unless-stopped
-        build:
-            context: ./app2
-        ports:
-            - "5002:5002"
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-            - nodejs2-data:/usr/src/app 
-            
-    node-server3:
-        restart: unless-stopped
-        build:
-            context: ./app3
-        ports:
-            - "5003:5003"
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-            - nodejs3-data:/usr/src/app 
-            
+            - nodejs1-data:/usr/src/app           
     nginx:
         restart: unless-stopped
         build:
@@ -37,13 +16,16 @@ services:
         ports:
             - "80:80"
         volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
+            - /var/run/docker.sock:/var/run/docker.sock   
             - type: bind
-              source: ./etc/nginx/conf.d
-              target: nginx-data:
+              source: /nginx
+              target: /etc/nginx/conf.d
             
 volumes:
         nginx-data:
-        nodejs-data:
-        nodejs2-data:
-        nodejs3-data:
+                driver: local
+                external: true
+        nodejs1-data:
+                driver: local
+                external: true
+
