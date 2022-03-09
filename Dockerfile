@@ -14,7 +14,7 @@ RUN npm install
 ADD . /usr/src/app/
 
 # our app is running on port 5000 within the container, so need to expose it
-EXPOSE 5001
+EXPOSE 5001-5010
 
 # for execute docker in container bash
 RUN mkdir -p /tmp/download && \
