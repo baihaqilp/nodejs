@@ -33,9 +33,9 @@ node {
    stage('Docker Pull & Deploy Scale Out') {
      docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
 		def app = docker.build("mraagil/docker-nodejs", '.').pull()
-		sh 'docker run -p 5002:5001 -d --name node-svr2 -v nodejs1:/usr/src/app -v /var/run/docker.sock:/var/run/docker.sock  mraagil/docker-nodejs'
-		sh 'docker run -p 5003:5001 -d --name node-svr3 -v nodejs1:/usr/src/app -v /var/run/docker.sock:/var/run/docker.sock  mraagil/docker-nodejs'
-		sh 'docker run -p 5004:5001 -d --name node-svr4 -v nodejs1:/usr/src/app -v /var/run/docker.sock:/var/run/docker.sock  mraagil/docker-nodejs'
+		sh 'docker run -p 5002:5001 -d --restart unless-stopped --name node-svr2 -v nodejs1:/usr/src/app -v /var/run/docker.sock:/var/run/docker.sock  mraagil/docker-nodejs'
+		sh 'docker run -p 5003:5001 -d --restart unless-stopped --name node-svr3 -v nodejs1:/usr/src/app -v /var/run/docker.sock:/var/run/docker.sock  mraagil/docker-nodejs'
+		sh 'docker run -p 5004:5001 -d --restart unless-stopped --name node-svr4 -v nodejs1:/usr/src/app -v /var/run/docker.sock:/var/run/docker.sock  mraagil/docker-nodejs'
 		}
    }
    

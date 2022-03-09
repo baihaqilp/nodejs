@@ -4,7 +4,7 @@ services:
         container_name: node-svr1
         restart: unless-stopped
         build:
-            context: ./app
+            context: .
         ports:
             - "5001:5001"
         volumes:

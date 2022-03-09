@@ -12,7 +12,6 @@ RUN npm install
 
 # add the generated modules and all other files to the container
 ADD . /usr/src/app/
-
 # our app is running on port 5000 within the container, so need to expose it
 EXPOSE 5001
 
