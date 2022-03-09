@@ -26,7 +26,15 @@ node {
    
    stage('Docker Build & Push') {
      docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
-		def app = docker.build("mraagil/docker-nodejs:${commit_id}", '.').push()
+		def app = docker.build("mraagil/docker-nodejs", '.').push()
+     }
+   }
+   stage('Docker Build & Push') {
+     docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
+		def app = docker.build("mraagil/docker-nodejs", '.').pull()
+		sh 'docker stop nodejs'
+		sh 'docker rm nodejs'
+		sh 'docker run -p 5004:5004 -d --name nodejs mraagil/docker-nodejs'
      }
    }
    
