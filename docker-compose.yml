@@ -3,28 +3,14 @@ services:
     node-svr:
         restart: unless-stopped
         build:
-            context: ./app
+            context: .
         ports:
             - "5001-5005:5001"
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
             - nodejs1-data:/usr/src/app           
-    nginx:
-        restart: unless-stopped
-        build:
-            context: ./nginx
-        ports:
-            - "80:80"
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock   
-            - type: bind
-              source: /nginx
-              target: /etc/nginx/conf.d
             
 volumes:
-        nginx-data:
-                driver: local
-                external: true
         nodejs1-data:
                 driver: local
                 external: true

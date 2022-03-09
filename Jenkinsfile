@@ -29,13 +29,11 @@ node {
 		def app = docker.build("mraagil/docker-nodejs", '.').push()
      }
    }
-   stage('Docker Build & Push') {
+   stage('Docker Pull') {
      docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
 		def app = docker.build("mraagil/docker-nodejs", '.').pull()
-		sh 'docker stop nodejs'
-		sh 'docker rm nodejs'
-		sh 'docker run -p 5004:5004 -d --name nodejs mraagil/docker-nodejs'
-     }
+		sh 'docker-compose scale nodejs-svr=3'
+		}
    }
    
 }
