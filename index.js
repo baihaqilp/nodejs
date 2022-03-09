@@ -9,5 +9,5 @@ app.get('/', function(req, res) {
 });
 app.use(express.static(__dirname + '/'));
 app.listen(port);
-console.log('Server started at http://192.168.200.16:';
+console.log('Server started at http://192.168.200.16';
 
