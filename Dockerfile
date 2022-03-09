@@ -5,8 +5,7 @@ USER root
 WORKDIR /usr/src/app
 
 # copy the all files from local machine to container
-#COPY package*.json ./
-COPY * ./
+COPY package*.json ./
 
 # run npm install in our local machine
 RUN npm install
