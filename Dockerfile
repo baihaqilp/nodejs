@@ -23,6 +23,7 @@ RUN mkdir -p /tmp/download && \
  rm -rf /tmp/download && \
  groupadd -g 999 docker && \
  usermod -aG docker node
+ 
 USER node
 # the command that starts our app
 CMD ["node", "index.js"]
