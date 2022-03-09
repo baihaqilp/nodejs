@@ -33,7 +33,9 @@ node {
    stage('Docker Pull & Deploy Scale Out') {
      docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
 		def app = docker.build("mraagil/docker-nodejs", '.').pull()
-		sh 'docker run -p 5004:5001 --name nodejs-svr4 mraagil/docker-nodejs'
+		sh 'docker run -p 5002:5001 --name -v nodejs1:/usr/src/app -v /var/run/docker.sock:/var/run/docker.sock nodejs-svr2 mraagil/docker-nodejs'
+		sh 'docker run -p 5003:5001 --name -v nodejs1:/usr/src/app -v /var/run/docker.sock:/var/run/docker.sock nodejs-svr3 mraagil/docker-nodejs'
+		sh 'docker run -p 5004:5001 --name -v nodejs1:/usr/src/app -v /var/run/docker.sock:/var/run/docker.sock nodejs-svr4 mraagil/docker-nodejs'
 		}
    }
    

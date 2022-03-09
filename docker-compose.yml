@@ -1,17 +1,32 @@
 version: "3.7"
 services:
     node-svr:
+        container_name: node-svr1
         restart: unless-stopped
         build:
-            context: .
+            context: ./app
         ports:
-            - "5001-5005:5001"
+            - "5001:5001"
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
-            - nodejs1-data:/usr/src/app           
-            
+            - nodejs1-data:/usr/src/app
+    nginx:
+        container_name: nginx
+        restart: unless-stopped
+        build:
+            context: ./nginx
+        ports:
+            - "80:80"
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - type: bind
+              source: /nginx
+              target: /etc/nginx/conf.d
+
 volumes:
+        nginx-data:
+                driver: local
+                external: true
         nodejs1-data:
                 driver: local
                 external: true
-
