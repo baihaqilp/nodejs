@@ -35,7 +35,7 @@ node {
 		def app = docker.build("mraagil/docker-nodejs", '.').pull()
 		sh 'docker stop nodejs-scaleout'
 		sh 'docker rm nodejs-scaleout'
-		sh 'docker run -p 5004:5004 -d --name nodejs-scaleout mraagil/docker-nodejs'
+		sh 'docker run -p 5005:5005 -d --name nodejs-scaleout2 mraagil/docker-nodejs'
 		}
    }
    
