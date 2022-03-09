@@ -19,7 +19,7 @@ node {
    }
 
    stage('Compile Changes') {  
-       sh 'sudo cp -v -r -f * /nodejs1'	 
+       sh 'sudo rsync -av * /nodejs1'	 
    }
    
    stage('Docker Build & Push') {
