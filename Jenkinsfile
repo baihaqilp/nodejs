@@ -1,6 +1,6 @@
 node {
    def commit_id
-   stage('Cloning Git') {
+   stage('Checkout Git') {
      checkout scm
      sh "git rev-parse --short HEAD > .git/commit-id"                        
      commit_id = readFile('.git/commit-id').trim()
@@ -30,10 +30,10 @@ node {
      }
    }
    
-   stage('Docker Pull & Deploy Scale UP') {
+   stage('Docker Pull & Deploy Scale Out') {
      docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
 		def app = docker.build("mraagil/docker-nodejs", '.').pull()
-		sh 'docker-compose up --scale nodejs-svr=3'
+		sh 'docker-compose up --build'
 		}
    }
    
