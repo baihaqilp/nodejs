@@ -14,7 +14,7 @@ node {
    
    stage('Deploy') {
      nodejs(nodeJSInstallationName: 'nodejs') {
-       sh 'sudo rync -av * /nodejs1'	 
+       sh 'sudo cp -v -r -f * /nodejs1'	 
      }
    }
    
