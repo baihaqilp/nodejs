@@ -20,7 +20,6 @@ node {
 
    stage('Compile Changes') {  
        sh 'sudo rsync -av * /nodejs1'
-	   sh 'docker builder prune --all'
    }
    
    stage('Docker Build & Push') {
