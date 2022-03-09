@@ -18,7 +18,7 @@ node {
      }
    }
 
-   stage('Deploy Changes') {
+   stage('Compile Changes') {
      nodejs(nodeJSInstallationName: 'nodejs') {
        sh 'sudo rsync -av * /nodejs1'	 
      }
@@ -29,10 +29,11 @@ node {
 		def app = docker.build("mraagil/docker-nodejs", '.').push()
      }
    }
-   stage('Docker Pull') {
+   
+   stage('Docker Pull & Deploy Scale UP') {
      docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
 		def app = docker.build("mraagil/docker-nodejs", '.').pull()
-		sh 'docker-compose scale nodejs-svr=3'
+		sh 'docker-compose up --scale nodejs-svr=3'
 		}
    }
    
