@@ -10,6 +10,7 @@ if [ "$(docker ps -qa -f name=$CNAME)" ]; then
     docker rm $CNAME;
 	
 fi
+echo ":: Deploying container - $CNAME"
 docker run -p 5002:5001 -d --restart unless-stopped --name $CNAME -v nodejs1-data:/usr/src/app -v /var/run/docker.sock:/var/run/docker.sock  mraagil/docker-nodejs
 
 CNAME2='node-svr3'
@@ -23,6 +24,7 @@ if [ "$(docker ps -qa -f name=$CNAME2)" ]; then
     docker rm $CNAME2;
 	
 fi
+echo ":: Deploying container - $CNAME2"
 docker run -p 5003:5001 -d --restart unless-stopped --name $CNAME2 -v nodejs1-data:/usr/src/app -v /var/run/docker.sock:/var/run/docker.sock  mraagil/docker-nodejs
 
 CNAME3='node-svr4'
@@ -36,6 +38,7 @@ if [ "$(docker ps -qa -f name=$CNAME3)" ]; then
     docker rm $CNAME3;
 	
 fi
+echo ":: Deploying container - $CNAME3"
 docker run -p 5004:5001 -d --restart unless-stopped --name $CNAME3 -v nodejs1-data:/usr/src/app -v /var/run/docker.sock:/var/run/docker.sock  mraagil/docker-nodejs
 
 CNAME4='node-svr5'
@@ -49,4 +52,5 @@ if [ "$(docker ps -qa -f name=$CNAME4)" ]; then
     docker rm $CNAME4;
 	
 fi
+echo ":: Deploying container - $CNAME4"
 docker run -p 5005:5001 -d --restart unless-stopped --name $CNAME4 -v nodejs1-data:/usr/src/app -v /var/run/docker.sock:/var/run/docker.sock  mraagil/docker-nodejs
