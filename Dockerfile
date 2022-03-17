@@ -16,9 +16,8 @@ ADD . /usr/src/app/
 EXPOSE 5001
 
 # for execute docker in container bash
-RUN rm -rf /tmp/download/docker/dockerd && \
- mv /tmp/download/docker/docker* /usr/local/bin/ && \
- rm -rf /tmp/download && \
+RUN mv /docker/docker* /usr/local/bin/ && \
+ rm -rf /docker && \
  groupadd -g 999 docker && \
  usermod -aG docker node
  
