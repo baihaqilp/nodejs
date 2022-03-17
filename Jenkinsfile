@@ -33,7 +33,7 @@ node {
 		sh 'sudo bash deploy.sh'
 		
    }
-   stage(‘Push Notification’) {
+   stage('Push Notification') {
 	steps {
 	script{
 		withCredentials([string(credentialsId: ‘telegramToken’, variable: ‘TOKEN’),
