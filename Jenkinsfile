@@ -35,7 +35,7 @@ node {
    }
    stage('Push Notification') {
 script{
-withCredentials([string(credentialsId: ‘telegramToken’, variable: ‘TOKEN’),
+withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
 string(credentialsId: ‘telegramChatId’, variable: ‘CHAT_ID’)]) {
 telegramSend(messsage:"test message",chatId:${CHAT_ID})
 }
