@@ -82,7 +82,7 @@ def notifySuccessful() {
 		
 }		
 		
-node(label: 'slave1'){
+node(label: 'master'){
    def commit_id
    stage('Checkout Git') {
 	 try { 
