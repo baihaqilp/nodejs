@@ -25,6 +25,7 @@ def notifyFailed() {
 node {
    def commit_id
    stage('Checkout Git') {
+     notifyStarted()
      checkout scm
      sh "git rev-parse --short HEAD > .git/commit-id"                        
      commit_id = readFile('.git/commit-id').trim()
@@ -38,8 +39,7 @@ node {
 
    stage('Testing') {
      nodejs(nodeJSInstallationName: 'nodejs') {
-	 try {
-       notifyStarted()
+	 try { 
 	   sh 'npm test'
        notifySuccessful()
   }  catch (e) {
