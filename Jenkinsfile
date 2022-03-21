@@ -1,5 +1,11 @@
 node {
    def commit_id
+   def notifyFailed() {
+		withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
+		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
+		sh 'bash telegram-failed.sh'
+			}
+		}
    stage('Checkout Git') {
      checkout scm
      sh "git rev-parse --short HEAD > .git/commit-id"                        
@@ -24,12 +30,7 @@ node {
     notifyFailed()
     throw e
   }
-  def notifyFailed() {
-  withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
-		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
-		sh 'bash telegram-failed.sh'
-		}
-}
+	
        	 
      }
    }
