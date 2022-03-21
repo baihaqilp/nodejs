@@ -1,2 +1,2 @@
 curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode="HTML" -d text="<b>Project</b> : Hackathon BCA by HAI MP 06                     
-<b>Status </b> : Test Passed - Connected to Web App Nodejs "
+<b>Status </b> : Success Build Job Nodejs 100%"

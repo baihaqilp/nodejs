@@ -6,11 +6,11 @@ def notifyStarted() {
 			}
 		}
 		
-def notifySuccessful() {
+def notifyConnected() {
   // send to Telegram
   withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
 		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
-		sh 'bash telegram-successful.sh'
+		sh 'bash telegram-connected.sh'
 			}
 		
 }
@@ -42,6 +42,15 @@ def notifyPull() {
 		sh 'bash telegram-pull.sh'
 			}
 		}
+		
+def notifySuccessful() {
+  // send to Telegram
+  withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
+		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
+		sh 'bash telegram-successful.sh'
+			}
+		
+}		
 		
 node {
    def commit_id
@@ -92,9 +101,7 @@ node {
 		
    }
    stage('Push Notification') {
-		withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
-		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
-		sh 'bash telegram-notif.sh'
+		notifySuccessful()
 		}
 
 	} 
