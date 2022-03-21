@@ -128,7 +128,7 @@ node(label: 'slave2'){
 
    stage('Compile Changes') {  
 	   try { 
-			sh 'sudo rsync -av * /nodejs1'
+			sh 'sudo rsync -av * root@192.168.200.16:/nodejs1'
 			notifyCompile()
   }  catch (e) {
 		currentBuild.result = "FAILED"
