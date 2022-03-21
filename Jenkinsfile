@@ -108,6 +108,9 @@ node(label: 'slave1'){
   }
      }	 
    }
+}   
+   
+node(label: 'slave2'){   
 
    stage('Testing') {
      nodejs(nodeJSInstallationName: 'nodejs') {
@@ -133,7 +136,9 @@ node(label: 'slave1'){
 		throw e
   }
    }
-   
+}
+
+node(label: 'master'){   
    stage('Docker Build & Push') {
      
 		try { 
