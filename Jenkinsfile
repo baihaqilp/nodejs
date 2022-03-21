@@ -54,6 +54,23 @@ node {
 
 
 }
+def notifyStarted() {
+  // send to Telegram
+  withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
+		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
+		sh 'bash telegram-started.sh'
+			}
+		}
+		
+def notifySuccessful() {
+  // send to Telegram
+  withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
+		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
+		sh 'bash telegram-successful.sh'
+			}
+		
+}
+
 def notifyFailed() {
 		withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
 		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
