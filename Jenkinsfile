@@ -1,3 +1,27 @@
+def notifyStarted() {
+  // send to Telegram
+  withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
+		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
+		sh 'bash telegram-started.sh'
+			}
+		}
+		
+def notifySuccessful() {
+  // send to Telegram
+  withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
+		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
+		sh 'bash telegram-successful.sh'
+			}
+		
+}
+
+def notifyFailed() {
+	withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
+		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
+		sh 'bash telegram-failed.sh'
+			}
+		}
+
 node {
    def commit_id
    stage('Checkout Git') {
@@ -15,14 +39,13 @@ node {
    stage('Testing') {
      nodejs(nodeJSInstallationName: 'nodejs') {
 	 try {
-    notifyStarted()
-
-	sh 'npm test'
-    notifySuccessful()
-  } catch (e) {
-    currentBuild.result = "FAILED"
-    notifyFailed()
-    throw e
+       notifyStarted()
+	   sh 'npm test'
+       notifySuccessful()
+  }  catch (e) {
+     currentBuild.result = "FAILED"
+     notifyFailed()
+     throw e
   }
 	
        	 
@@ -54,26 +77,3 @@ node {
 
 
 }
-def notifyStarted() {
-  // send to Telegram
-  withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
-		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
-		sh 'bash telegram-started.sh'
-			}
-		}
-		
-def notifySuccessful() {
-  // send to Telegram
-  withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
-		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
-		sh 'bash telegram-successful.sh'
-			}
-		
-}
-
-def notifyFailed() {
-		withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
-		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
-		sh 'bash telegram-failed.sh'
-			}
-		}
