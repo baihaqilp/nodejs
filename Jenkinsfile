@@ -128,7 +128,7 @@ node(label: 'slave2'){
 
    stage('Compile Changes') {  
 	   try { 
-			sh 'sudo rsync -av * root@192.168.200.16:/var/lib/docker/volumes/nodejs1-data/_data'
+			sh 'cp -v -r -f * root@192.168.200.16:/var/lib/docker/volumes/nodejs1-data/_data'
 			notifyCompile()
   }  catch (e) {
 		currentBuild.result = "FAILED"
