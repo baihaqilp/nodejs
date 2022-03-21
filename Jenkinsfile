@@ -1,13 +1,20 @@
+//Send Notification Telegram
 def notifyStarted() {
-  // send to Telegram
   withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
 		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
 		sh 'bash telegram-started.sh'
 			}
 		}
 		
+def notifyInstall() {
+  withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
+		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
+		sh 'bash telegram-install.sh'
+			}
+		
+}		
+		
 def notifyConnected() {
-  // send to Telegram
   withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
 		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
 		sh 'bash telegram-connected.sh'
@@ -44,7 +51,6 @@ def notifyPull() {
 		}
 		
 def notifySuccessful() {
-  // send to Telegram
   withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
 		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
 		sh 'bash telegram-successful.sh'
@@ -52,54 +58,83 @@ def notifySuccessful() {
 		
 }		
 		
-node(label: 'slave1'){
+node{
    def commit_id
    stage('Checkout Git') {
-     checkout scm
-     sh "git rev-parse --short HEAD > .git/commit-id"                        
-     commit_id = readFile('.git/commit-id').trim()
-	 
+	 try { 
+			checkout scm
+			sh "git rev-parse --short HEAD > .git/commit-id"                        
+			commit_id = readFile('.git/commit-id').trim()
+			notifyStarted()
+  }  catch (e) {
+		currentBuild.result = "FAILED"
+		notifyFailed()
+		throw e
+  }
    }
 
    stage('Installing dependencies') {
-     nodejs(nodeJSInstallationName: 'nodejs') {
-	   notifyStarted()
-       sh 'npm install'	 
+     nodejs(nodeJSInstallationName: 'nodejs') {	 
+	   try { 
+			notifyStarted()
+			sh 'npm install'
+			notifyInstall()
+  }  catch (e) {
+		currentBuild.result = "FAILED"
+		notifyFailed()
+		throw e
+  }
      }	 
    }
 
    stage('Testing') {
      nodejs(nodeJSInstallationName: 'nodejs') {
 	 try { 
-	   sh 'npm test'
-       notifySuccessful()
+			sh 'npm test'
+			notifySuccessful()
   }  catch (e) {
-     currentBuild.result = "FAILED"
-     notifyFailed()
-     throw e
+		currentBuild.result = "FAILED"
+		notifyFailed()
+		throw e
   }
-}
-	
-node(label: 'slave2'){       	 
+     	 
      }
    }
 
    stage('Compile Changes') {  
-       sh 'sudo rsync -av * /nodejs1'
-	   notifyCompile()
+	   try { 
+			sh 'sudo rsync -av * /nodejs1'
+			notifyCompile()
+  }  catch (e) {
+		currentBuild.result = "FAILED"
+		notifyFailed()
+		throw e
+  }
    }
    
    stage('Docker Build & Push') {
      docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
-		def app = docker.build("mraagil/docker-nodejs", '.').push()
-		notifyDocker()
+		try { 
+			def app = docker.build("mraagil/docker-nodejs", '.').push()
+			notifyDocker()
+  }  catch (e) {
+		currentBuild.result = "FAILED"
+		notifyFailed()
+		throw e
+  }
      }
    }
    
    stage('Docker Pull & Deploy Scale Out') {
-		def app = docker.build("mraagil/docker-nodejs", '.').pull()
-		sh 'sudo bash deploy.sh'
-		notifyPull()
+		try { 
+			def app = docker.build("mraagil/docker-nodejs", '.').pull()
+			sh 'sudo bash deploy.sh'
+			notifyPull()
+  }  catch (e) {
+		currentBuild.result = "FAILED"
+		notifyFailed()
+		throw e
+  }
 		
    }
    stage('Push Notification') {
