@@ -1,4 +1,11 @@
 //Send Notification Telegram
+def notifyFailed-Git() {
+  withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
+		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
+		sh 'bash failed-git.sh'
+			}
+		
+}	
 def notifyStarted() {
   withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
 		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
@@ -6,10 +13,10 @@ def notifyStarted() {
 			}
 		}
 		
-def notifyInstall() {
+def notifyFailed-Install() {
   withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
 		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
-		sh 'bash telegram-install.sh'
+		sh 'bash failed-install.sh'
 			}
 		
 }		
@@ -22,10 +29,10 @@ def notifyConnected() {
 		
 }
 
-def notifyFailed() {
+def notifyFailed-Connected() {
 	withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
 		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
-		sh 'bash telegram-failed.sh'
+		sh 'bash failed-connected.sh'
 			}
 		}
 		
@@ -35,20 +42,36 @@ def notifyCompile() {
 		sh 'bash telegram-compile.sh'
 			}
 		}		
-
+		
 def notifyDocker() {
-	withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
+  withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
 		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
 		sh 'bash telegram-docker.sh'
 			}
-		}
+		}		
 
+def notifyFailed-Docker() {
+	withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
+		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
+		sh 'bash failed-docker.sh'
+			}
+		}
+		
 def notifyPull() {
 	withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
 		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
 		sh 'bash telegram-pull.sh'
 			}
+		}		
+
+def notifyFailed-Pull() {
+	withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
+		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
+		sh 'bash failed-pull.sh'
+			}
 		}
+		
+		
 		
 def notifySuccessful() {
   withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
@@ -68,7 +91,7 @@ node{
 			notifyStarted()
   }  catch (e) {
 		currentBuild.result = "FAILED"
-		notifyFailed()
+		notifyFailed-Git()
 		throw e
   }
    }
@@ -77,10 +100,9 @@ node{
      nodejs(nodeJSInstallationName: 'nodejs') {	 
 	   try { 
 			sh 'npm install'
-			notifyInstall()
   }  catch (e) {
 		currentBuild.result = "FAILED"
-		notifyFailed()
+		notifyFailed-Install()
 		throw e
   }
      }	 
@@ -93,7 +115,7 @@ node{
 			notifyConnected()
   }  catch (e) {
 		currentBuild.result = "FAILED"
-		notifyFailed()
+		notifyFailed-Connected()
 		throw e
   }
      	 
@@ -106,32 +128,34 @@ node{
 			notifyCompile()
   }  catch (e) {
 		currentBuild.result = "FAILED"
-		notifyFailed()
+		notifyFailed-Compile()
 		throw e
   }
    }
    
    stage('Docker Build & Push') {
-     docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
+     
 		try { 
-			def app = docker.build("mraagil/docker-nodejs:latest", '.').push()
+			docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
+			def app = docker.build("mraagil/docker-nodejs", '.').push()
 			notifyDocker()
+			}
   }  catch (e) {
 		currentBuild.result = "FAILED"
-		notifyFailed()
+		notifyFailed-Docker()
 		throw e
   }
-     }
+     
    }
    
    stage('Docker Pull & Deploy Scale Out') {
 		try { 
-			def app = docker.build("mraagil/docker-nodejs:latest", '.').pull()
+			def app = docker.build("mraagil/docker-nodejs", '.').pull()
 			sh 'sudo bash deploy.sh'
 			notifyPull()
   }  catch (e) {
 		currentBuild.result = "FAILED"
-		notifyFailed()
+		notifyFailed-Pull()
 		throw e
   }
 		
