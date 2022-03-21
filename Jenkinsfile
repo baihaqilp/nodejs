@@ -1,5 +1,6 @@
 //Send Notification Telegram
-def notifyFailed-Git() {
+
+def notifyFailedGit() {
   withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
 		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
 		sh 'bash failed-git.sh'
@@ -13,7 +14,7 @@ def notifyStarted() {
 			}
 		}
 		
-def notifyFailed-Install() {
+def notifyFailedInstall() {
   withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
 		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
 		sh 'bash failed-install.sh'
@@ -29,7 +30,7 @@ def notifyConnected() {
 		
 }
 
-def notifyFailed-Connected() {
+def notifyFailedConnected() {
 	withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
 		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
 		sh 'bash failed-connected.sh'
@@ -50,7 +51,7 @@ def notifyDocker() {
 			}
 		}		
 
-def notifyFailed-Docker() {
+def notifyFailedDocker() {
 	withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
 		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
 		sh 'bash failed-docker.sh'
@@ -64,7 +65,7 @@ def notifyPull() {
 			}
 		}		
 
-def notifyFailed-Pull() {
+def notifyFailedPull() {
 	withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
 		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
 		sh 'bash failed-pull.sh'
@@ -91,7 +92,7 @@ node{
 			notifyStarted()
   }  catch (e) {
 		currentBuild.result = "FAILED"
-		notifyFailed-Git()
+		notifyFailedGit()
 		throw e
   }
    }
@@ -102,7 +103,7 @@ node{
 			sh 'npm install'
   }  catch (e) {
 		currentBuild.result = "FAILED"
-		notifyFailed-Install()
+		notifyFailedInstall()
 		throw e
   }
      }	 
@@ -115,7 +116,7 @@ node{
 			notifyConnected()
   }  catch (e) {
 		currentBuild.result = "FAILED"
-		notifyFailed-Connected()
+		notifyFailedConnected()
 		throw e
   }
      	 
@@ -128,7 +129,7 @@ node{
 			notifyCompile()
   }  catch (e) {
 		currentBuild.result = "FAILED"
-		notifyFailed-Compile()
+		notifyFailedCompile()
 		throw e
   }
    }
@@ -142,7 +143,7 @@ node{
 			}
   }  catch (e) {
 		currentBuild.result = "FAILED"
-		notifyFailed-Docker()
+		notifyFailedDocker()
 		throw e
   }
      
@@ -155,7 +156,7 @@ node{
 			notifyPull()
   }  catch (e) {
 		currentBuild.result = "FAILED"
-		notifyFailed-Pull()
+		notifyFailedPull()
 		throw e
   }
 		
