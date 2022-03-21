@@ -88,7 +88,7 @@ node {
    stage('Docker Pull & Deploy Scale Out') {
 		def app = docker.build("mraagil/docker-nodejs", '.').pull()
 		sh 'sudo bash deploy.sh'
-		def notifyPull()
+		notifyPull()
 		
    }
    stage('Push Notification') {
