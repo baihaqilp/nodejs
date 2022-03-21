@@ -76,7 +76,6 @@ node{
    stage('Installing dependencies') {
      nodejs(nodeJSInstallationName: 'nodejs') {	 
 	   try { 
-			notifyStarted()
 			sh 'npm install'
 			notifyInstall()
   }  catch (e) {
@@ -91,7 +90,7 @@ node{
      nodejs(nodeJSInstallationName: 'nodejs') {
 	 try { 
 			sh 'npm test'
-			notifySuccessful()
+			notifyConnected()
   }  catch (e) {
 		currentBuild.result = "FAILED"
 		notifyFailed()
@@ -115,7 +114,7 @@ node{
    stage('Docker Build & Push') {
      docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
 		try { 
-			def app = docker.build("mraagil/docker-nodejs", '.').push()
+			def app = docker.build("mraagil/docker-nodejs:latest", '.').push()
 			notifyDocker()
   }  catch (e) {
 		currentBuild.result = "FAILED"
@@ -127,7 +126,7 @@ node{
    
    stage('Docker Pull & Deploy Scale Out') {
 		try { 
-			def app = docker.build("mraagil/docker-nodejs", '.').pull()
+			def app = docker.build("mraagil/docker-nodejs:latest", '.').pull()
 			sh 'sudo bash deploy.sh'
 			notifyPull()
   }  catch (e) {
