@@ -156,7 +156,7 @@ node(label: 'master'){
    
    stage('Docker Pull & Deploy Scale Out') {
 		try { 
-			def app = docker.build("mraagil/docker-nodejs:mp06", '.').pull()
+			def app = docker.pull("mraagil/docker-nodejs:mp06")
 			sh 'sudo bash deploy.sh'
 			notifyPull()
   }  catch (e) {
