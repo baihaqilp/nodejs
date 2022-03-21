@@ -82,7 +82,7 @@ def notifySuccessful() {
 		
 }		
 		
-node(label: 'master'){
+node(label: 'slave1'){
    def commit_id
    stage('Checkout Git') {
 	 try { 
@@ -138,7 +138,7 @@ node(label: 'master'){
      
 		try { 
 			docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
-			def app = docker.build("mraagil/docker-nodejs", '.').push()
+			def app = docker.build("mraagil/docker-nodejs:mp06", '.').push()
 			notifyDocker()
 			}
   }  catch (e) {
@@ -151,7 +151,7 @@ node(label: 'master'){
    
    stage('Docker Pull & Deploy Scale Out') {
 		try { 
-			def app = docker.build("mraagil/docker-nodejs", '.').pull()
+			def app = docker.build("mraagil/docker-nodejs:mp06", '.').pull()
 			sh 'sudo bash deploy.sh'
 			notifyPull()
   }  catch (e) {
