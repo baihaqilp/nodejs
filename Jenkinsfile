@@ -14,7 +14,23 @@ node {
 
    stage('Testing') {
      nodejs(nodeJSInstallationName: 'nodejs') {
-       sh 'npm test'	 
+	 try {
+    notifyStarted()
+
+	sh 'npm test'
+    notifySuccessful()
+  } catch (e) {
+    currentBuild.result = "FAILED"
+    notifyFailed()
+    throw e
+  }
+  def notifyFailed() {
+  withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
+		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
+		sh 'bash telegram-failed.sh'
+		}
+}
+       	 
      }
    }
 
