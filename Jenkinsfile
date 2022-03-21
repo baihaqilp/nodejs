@@ -52,7 +52,7 @@ def notifySuccessful() {
 		
 }		
 		
-node {
+node(label: 'slave1'){
    def commit_id
    stage('Checkout Git') {
      notifyStarted()
@@ -77,8 +77,9 @@ node {
      notifyFailed()
      throw e
   }
+}
 	
-       	 
+node(label: 'slave2'){       	 
      }
    }
 
