@@ -1,5 +1,5 @@
 #!/bin/bash
-ssh root@192.168.200.16 "
+
 CNAME='node-svr2'
 if [ "$(docker ps -qa -f name=$CNAME)" ]; then
     echo ":: Found container - $CNAME"
@@ -54,4 +54,4 @@ if [ "$(docker ps -qa -f name=$CNAME4)" ]; then
 	
 fi
 echo ":: Deploying container - $CNAME4"
-docker run -p 5005:5001 -d --restart unless-stopped --name $CNAME4 -v nodejs1-data:/usr/src/app -v /var/run/docker.sock:/var/run/docker.sock  mraagil/docker-nodejs"
+docker run -p 5005:5001 -d --restart unless-stopped --name $CNAME4 -v nodejs1-data:/usr/src/app -v /var/run/docker.sock:/var/run/docker.sock  mraagil/docker-nodejs

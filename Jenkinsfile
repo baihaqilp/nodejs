@@ -161,7 +161,7 @@ node{
    stage('Docker Pull & Deploy Scale Out') {
 		try { 
 			sh 'docker pull mraagil/docker-nodejs:mp06'
-			sh 'sudo bash deploy.sh'
+			sh 'ssh root@192.168.200.16 sudo bash /home/deploy.sh'
 			notifyPull()
   }  catch (e) {
 		currentBuild.result = "FAILED"
