@@ -146,7 +146,7 @@ node(label:'slave1'){
    stage('Docker Build & Push') {
      
 		try { 
-			docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
+			docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
 			def app = docker.build("mraagil/docker-nodejs:mp06", '.').push()
 			notifyDocker()
 			}
