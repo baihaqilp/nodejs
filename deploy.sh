@@ -1,4 +1,5 @@
 #!/bin/bash
+ssh root@192.168.200.16
 CNAME='node-svr2'
 if [ "$(docker ps -qa -f name=$CNAME)" ]; then
     echo ":: Found container - $CNAME"
