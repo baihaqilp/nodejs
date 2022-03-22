@@ -134,7 +134,7 @@ node{
 
    stage('Compile Changes') {  
 	   try { 
-			sh 'rsync -av * /nodejs1'
+			sh 'sudo rsync -av * /nodejs1'
 			notifyCompile()
   }  catch (e) {
 		currentBuild.result = "FAILED"
