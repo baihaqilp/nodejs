@@ -42,6 +42,13 @@ def notifyCompile() {
 		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
 		sh 'bash telegram-compile.sh'
 			}
+		}	
+
+def notifyFailedCompile() {
+	withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
+		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
+		sh 'bash failed-compile.sh'
+			}
 		}		
 		
 def notifyDocker() {
@@ -127,7 +134,7 @@ node{
 
    stage('Compile Changes') {  
 	   try { 
-			sh 'rsync -av * root@192.168.200.16:/var/lib/docker/volumes/nodejs1-data/_data'
+			sh 'rsync -av * /nodejs1'
 			notifyCompile()
   }  catch (e) {
 		currentBuild.result = "FAILED"
