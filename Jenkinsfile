@@ -108,7 +108,7 @@ node{
   }
      }	 
    }
-}   
+   
     
 
    stage('Testing') {
@@ -135,9 +135,7 @@ node{
 		throw e
   }
    }
-
-
-node(label: 'master'){   
+  
    stage('Docker Build & Push') {
      
 		try { 
@@ -168,8 +166,7 @@ node(label: 'master'){
    stage('Push Notification') {
 		notifySuccessful()
 		}
-
+}
 	
 
 
-}
