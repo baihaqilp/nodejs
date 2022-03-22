@@ -82,7 +82,7 @@ def notifySuccessful() {
 		
 }		
 		
-node(label: 'slave1'){
+node{
    def commit_id
    stage('Checkout Git') {
 	 try { 
@@ -109,8 +109,7 @@ node(label: 'slave1'){
      }	 
    }
 }   
-   
-node(label: 'slave2'){   
+    
 
    stage('Testing') {
      nodejs(nodeJSInstallationName: 'nodejs') {
@@ -128,7 +127,7 @@ node(label: 'slave2'){
 
    stage('Compile Changes') {  
 	   try { 
-			sh 'cp -v -r -f * root@192.168.200.16:/var/lib/docker/volumes/nodejs1-data/_data'
+			sh 'rsync -av * root@192.168.200.16:/var/lib/docker/volumes/nodejs1-data/_data'
 			notifyCompile()
   }  catch (e) {
 		currentBuild.result = "FAILED"
@@ -136,7 +135,7 @@ node(label: 'slave2'){
 		throw e
   }
    }
-}
+
 
 node(label: 'master'){   
    stage('Docker Build & Push') {
