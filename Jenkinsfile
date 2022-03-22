@@ -1,21 +1,21 @@
 //Send Notification Telegram
 
 def notifyFailedGit() {
-  withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
+	withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
 		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
 		sh 'bash failed-git.sh'
 			}
 		
 }	
 def notifyStarted() {
-  withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
+	withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
 		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
 		sh 'bash telegram-started.sh'
 			}
 		}
 		
 def notifyFailedInstall() {
-  withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
+	withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
 		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
 		sh 'bash failed-install.sh'
 			}
@@ -23,7 +23,7 @@ def notifyFailedInstall() {
 }		
 		
 def notifyConnected() {
-  withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
+	withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
 		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
 		sh 'bash telegram-connected.sh'
 			}
@@ -52,7 +52,7 @@ def notifyFailedCompile() {
 		}		
 		
 def notifyDocker() {
-  withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
+	withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
 		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
 		sh 'bash telegram-docker.sh'
 			}
@@ -82,14 +82,14 @@ def notifyFailedPull() {
 		
 		
 def notifySuccessful() {
-  withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
+	withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
 		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
 		sh 'bash telegram-successful.sh'
 			}
 		
 }		
 		
-node(label:'slave1'){
+node{
    def commit_id
    stage('Checkout Git') {
 	 try { 
@@ -134,7 +134,7 @@ node(label:'slave1'){
 
    stage('Compile Changes') {  
 	   try { 
-			sh 'sudo rsync -av * /nodejs1'
+			sh 'sudo rsync -av * root@192.168.200.16:/nodejs1'
 			notifyCompile()
   }  catch (e) {
 		currentBuild.result = "FAILED"
