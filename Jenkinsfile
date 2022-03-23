@@ -14,6 +14,14 @@ def notifyStarted() {
 			}
 		}
 		
+def notifyInstall() {
+	withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
+		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
+		sh 'bash telegram-install.sh'
+			}
+		
+}				
+		
 def notifyFailedInstall() {
 	withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
 		string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
@@ -108,6 +116,7 @@ node{
      nodejs(nodeJSInstallationName: 'nodejs') {	 
 	   try { 
 			sh 'npm install'
+			notifyInstall()
   }  catch (e) {
 		currentBuild.result = "FAILED"
 		notifyFailedInstall()
@@ -163,6 +172,7 @@ node{
 			sh 'docker pull mraagil/docker-nodejs:mp06'
 			sh 'ssh root@192.168.200.16 sudo bash /home/deploy.sh'
 			notifyPull()
+			notifySuccessful()
   }  catch (e) {
 		currentBuild.result = "FAILED"
 		notifyFailedPull()
@@ -170,9 +180,7 @@ node{
   }
 		
    }
-   stage('Push Notification') {
-		notifySuccessful()
-		}
+   
 }
 	
 
